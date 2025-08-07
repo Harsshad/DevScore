@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware # NEW: Import CORSMiddleware
-from core import (
+from .core import (
     fetch_github_data, fetch_leetcode_data, fetch_hackerrank_data,
     smart_score, assign_label_custom, get_gemini_review
 )
