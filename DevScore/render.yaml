@@ -2,14 +2,13 @@ services:
   - type: web
     name: DevScore-app
     env: python
-    # Render will execute commands from the 'DevScore' root directory
-    # So, the path to requirements.txt needs to be relative to DevScore/
-    buildCommand: pip install -r app/requirements.txt
+    # The build command should use the venv's pip, executed from the repo root (since Root Dir is DevScore)
+    buildCommand: /opt/render/project/src/DevScore/.venv/bin/pip install -r app/requirements.txt
 
-    # Render will execute commands from the 'DevScore' root directory
-    # Uvicorn needs to find 'app/score.py' within that context.
-    # 'app.score:app' correctly points to score.py inside the 'app' sub-directory.
-    startCommand: uvicorn app.score:app --host=0.0.0.0 --port=10000
+    # The start command should use the venv's python to run uvicorn
+    # And crucially, Uvicorn needs to be invoked in a way that it can find DevScore.app.score
+    # by running from the repo root context.
+    startCommand: /opt/render/project/src/.venv/bin/python -m uvicorn DevScore.app.score:app --host=0.0.0.0 --port=10000
 
     envVars:
       - key: PORT
