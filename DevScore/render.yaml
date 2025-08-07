@@ -2,9 +2,15 @@ services:
   - type: web
     name: DevScore-app
     env: python
+    # Render will execute commands from the 'DevScore' root directory
+    # So, the path to requirements.txt needs to be relative to DevScore/
     buildCommand: pip install -r app/requirements.txt
+
+    # Render will execute commands from the 'DevScore' root directory
+    # Uvicorn needs to find 'app/score.py' within that context.
+    # 'app.score:app' correctly points to score.py inside the 'app' sub-directory.
     startCommand: uvicorn app.score:app --host=0.0.0.0 --port=10000
-    # startCommand: uvicorn DevScore.app.score:app --host=0.0.0.0 --port=10000
+
     envVars:
       - key: PORT
         value: 10000
